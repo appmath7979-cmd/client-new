@@ -1,6 +1,7 @@
 import { useMatches } from "@tanstack/react-router";
 import { Button } from "../ui/button";
 import { MenuIcon } from "lucide-react";
+import { DatePicker } from "./DatePicker";
 
 export function Header() {
   const matches = useMatches();
@@ -17,6 +18,7 @@ export function Header() {
           <h1 className="absolute top-1/2 left-1/2 transform -translate-1/2 text-center md:text-xl font-semibold uppercase text-primary cursor-default">
             {currentName || "Toán học"}
           </h1>
+          <DatePicker />
         </header>
       ) : null}
     </>
