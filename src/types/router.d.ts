@@ -1,9 +1,10 @@
 import "@tanstack/react-router";
 
 declare module "@tanstack/react-router" {
-  interface StaticDataRouteOption {
-    title?: string;
-    isShowHeader?: boolean;
-    isShowNavbar?: boolean;
-  }
+	interface StaticDataRouteOption {
+		title?: string;
+		isShowHeader?: boolean;
+		isShowNavbar?: boolean;
+		isShowBack?: boolean;
+	}
 }

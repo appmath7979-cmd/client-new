@@ -1,10 +1,10 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-
-import appCss from "../styles.css?url";
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Header } from "#/components/base/Header";
 import { NavList } from "#/components/base/navigation/NavList";
+import { FormDevtoolsPanel } from "@tanstack/react-form-devtools";
+import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -48,6 +48,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             {
               name: "Tanstack Router",
               render: <TanStackRouterDevtoolsPanel />,
+            },
+            {
+              name: "Tanstack Form",
+              render: <FormDevtoolsPanel />,
             },
           ]}
         />
