@@ -1,12 +1,32 @@
-import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { formatDate } from "#/lib/format-date";
+import { useAppStore } from "@lavaz/store";
+import { store } from "#/store/store";
+import { useEffect, useState } from "react";
 
 export function DatePicker() {
-  const [date, setDate] = useState<Date>(() => new Date());
+  const [isMounted, setIsMounted] = useState(false);
+  const [date, { setDate }] = useAppStore(store.date, (s) => s.date);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted || !date) {
+    return (
+      <Button
+        variant="outline"
+        className="justify-start text-left font-normal text-muted-foreground"
+      >
+        <CalendarIcon />
+        <span className="max-md:hidden">Chọn ngày</span>
+      </Button>
+    );
+  }
+
   return (
     <Popover>
       <PopoverTrigger asChild>
