@@ -1,9 +1,9 @@
-type Region = "MB" | "MT" | "MN"
+type Region = "MB" | "MT" | "MN";
 
 interface IRegionItem {
-  id: string
-  label: string
-  value: Region
+	id: string;
+	label: string;
+	value: Region;
 }
 
-export type { Region, IRegionItem }
+export type { Region, IRegionItem };

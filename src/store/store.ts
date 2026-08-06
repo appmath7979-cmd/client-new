@@ -4,5 +4,5 @@ import { regionBox } from "./boxes/region.box";
 
 export const store = createStore({
 	date: dateBox,
-	region: regionBox
+	region: regionBox,
 });

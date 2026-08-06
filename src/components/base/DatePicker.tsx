@@ -39,7 +39,7 @@ export function DatePicker() {
 					<span className="max-md:hidden">{formatDate(date)}</span>
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className="w-auto p-0">
+			<PopoverContent className="w-auto p-0 z-9999">
 				<Calendar required mode="single" selected={date} onSelect={setDate} />
 			</PopoverContent>
 		</Popover>

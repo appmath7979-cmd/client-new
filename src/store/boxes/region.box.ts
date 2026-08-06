@@ -1,14 +1,14 @@
-import type { Region } from "#/types/region.type";
 import { createBox } from "@lavaz/store";
+import type { Region } from "#/types/region.type";
 
 interface RegionState {
-  region: Region
+	region: Region;
 }
 
 const initialState = {
-  region: "MB"
-} satisfies RegionState as RegionState
+	region: "MB",
+} satisfies RegionState as RegionState;
 
-export const regionBox = createBox(initialState, set => ({
-  onSelectRegion: (region: Region) => set(prev => ({ ...prev, region }))
-})).create()
+export const regionBox = createBox(initialState, (set) => ({
+	setRegion: (region: Region) => set((prev) => ({ ...prev, region })),
+})).create();

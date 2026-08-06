@@ -11,8 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as KhachHangIndexRouteImport } from './routes/khach-hang/index'
-import { Route as KhachHangCustomerIdRouteImport } from './routes/khach-hang/$customerId'
 import { Route as KhachHangThemKhachHangRouteImport } from './routes/khach-hang/them-khach-hang'
+import { Route as KhachHangCustomerIdIndexRouteImport } from './routes/khach-hang/$customerId/index'
+import { Route as KhachHangCustomerIdTinNhanRouteImport } from './routes/khach-hang/$customerId/tin-nhan'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,62 +25,76 @@ const KhachHangIndexRoute = KhachHangIndexRouteImport.update({
   path: '/khach-hang/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const KhachHangCustomerIdRoute = KhachHangCustomerIdRouteImport.update({
-  id: '/khach-hang/$customerId',
-  path: '/khach-hang/$customerId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const KhachHangThemKhachHangRoute = KhachHangThemKhachHangRouteImport.update({
   id: '/khach-hang/them-khach-hang',
   path: '/khach-hang/them-khach-hang',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KhachHangCustomerIdIndexRoute =
+  KhachHangCustomerIdIndexRouteImport.update({
+    id: '/khach-hang/$customerId/',
+    path: '/khach-hang/$customerId/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const KhachHangCustomerIdTinNhanRoute =
+  KhachHangCustomerIdTinNhanRouteImport.update({
+    id: '/khach-hang/$customerId/tin-nhan',
+    path: '/khach-hang/$customerId/tin-nhan',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/khach-hang/$customerId': typeof KhachHangCustomerIdRoute
   '/khach-hang/them-khach-hang': typeof KhachHangThemKhachHangRoute
   '/khach-hang/': typeof KhachHangIndexRoute
+  '/khach-hang/$customerId/tin-nhan': typeof KhachHangCustomerIdTinNhanRoute
+  '/khach-hang/$customerId/': typeof KhachHangCustomerIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/khach-hang/$customerId': typeof KhachHangCustomerIdRoute
   '/khach-hang/them-khach-hang': typeof KhachHangThemKhachHangRoute
   '/khach-hang': typeof KhachHangIndexRoute
+  '/khach-hang/$customerId/tin-nhan': typeof KhachHangCustomerIdTinNhanRoute
+  '/khach-hang/$customerId': typeof KhachHangCustomerIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/khach-hang/$customerId': typeof KhachHangCustomerIdRoute
   '/khach-hang/them-khach-hang': typeof KhachHangThemKhachHangRoute
   '/khach-hang/': typeof KhachHangIndexRoute
+  '/khach-hang/$customerId/tin-nhan': typeof KhachHangCustomerIdTinNhanRoute
+  '/khach-hang/$customerId/': typeof KhachHangCustomerIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/khach-hang/$customerId'
     | '/khach-hang/them-khach-hang'
     | '/khach-hang/'
+    | '/khach-hang/$customerId/tin-nhan'
+    | '/khach-hang/$customerId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/khach-hang/$customerId'
     | '/khach-hang/them-khach-hang'
     | '/khach-hang'
+    | '/khach-hang/$customerId/tin-nhan'
+    | '/khach-hang/$customerId'
   id:
     | '__root__'
     | '/'
-    | '/khach-hang/$customerId'
     | '/khach-hang/them-khach-hang'
     | '/khach-hang/'
+    | '/khach-hang/$customerId/tin-nhan'
+    | '/khach-hang/$customerId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  KhachHangCustomerIdRoute: typeof KhachHangCustomerIdRoute
   KhachHangThemKhachHangRoute: typeof KhachHangThemKhachHangRoute
   KhachHangIndexRoute: typeof KhachHangIndexRoute
+  KhachHangCustomerIdTinNhanRoute: typeof KhachHangCustomerIdTinNhanRoute
+  KhachHangCustomerIdIndexRoute: typeof KhachHangCustomerIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -98,13 +113,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KhachHangIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/khach-hang/$customerId': {
-      id: '/khach-hang/$customerId'
-      path: '/khach-hang/$customerId'
-      fullPath: '/khach-hang/$customerId'
-      preLoaderRoute: typeof KhachHangCustomerIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/khach-hang/them-khach-hang': {
       id: '/khach-hang/them-khach-hang'
       path: '/khach-hang/them-khach-hang'
@@ -112,14 +120,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KhachHangThemKhachHangRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/khach-hang/$customerId/': {
+      id: '/khach-hang/$customerId/'
+      path: '/khach-hang/$customerId'
+      fullPath: '/khach-hang/$customerId/'
+      preLoaderRoute: typeof KhachHangCustomerIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/khach-hang/$customerId/tin-nhan': {
+      id: '/khach-hang/$customerId/tin-nhan'
+      path: '/khach-hang/$customerId/tin-nhan'
+      fullPath: '/khach-hang/$customerId/tin-nhan'
+      preLoaderRoute: typeof KhachHangCustomerIdTinNhanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  KhachHangCustomerIdRoute: KhachHangCustomerIdRoute,
   KhachHangThemKhachHangRoute: KhachHangThemKhachHangRoute,
   KhachHangIndexRoute: KhachHangIndexRoute,
+  KhachHangCustomerIdTinNhanRoute: KhachHangCustomerIdTinNhanRoute,
+  KhachHangCustomerIdIndexRoute: KhachHangCustomerIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

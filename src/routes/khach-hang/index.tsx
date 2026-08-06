@@ -1,9 +1,13 @@
+import { useAppStore } from "@lavaz/store";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { SearchCustomer } from "#/components/customer/SearchCustomer";
 import { TableCustomer } from "#/components/customer/TableCustomer";
 import { TitleCustomer } from "#/components/customer/TitleCustomer";
 import { Tabs, TabsList, TabsTrigger } from "#/components/ui/tabs";
+import { useCustomerQueryAll } from "#/hooks/query/customer/use-customer-query";
+import { formatDate } from "#/lib/format-date";
+import { store } from "#/store/store";
 
 export const Route = createFileRoute("/khach-hang/")({
 	staticData: { title: "Khách hàng" },
@@ -43,7 +47,14 @@ const MOCK_CUSTOMERS = [
 
 function RouteComponent() {
 	const [searchTerm, setSearchTerm] = useState("");
-	const [activeTab, setActiveTab] = useState<string>("khach");
+	const [activeTab, setActiveTab] = useState<string>("GUEST");
+
+	const [date] = useAppStore(store.date, (s) => s.date);
+
+	const { data } = useCustomerQueryAll({
+		order: true,
+		release: formatDate(date),
+	});
 
 	// Xử lý sao chép thông tin
 	const handleCopy = (text: string) => {
@@ -59,15 +70,14 @@ function RouteComponent() {
 	};
 
 	// Lọc dữ liệu theo tên và tab
-	const filteredCustomers = MOCK_CUSTOMERS.filter((c) => {
-		const matchesSearch = c.name
-			.toLowerCase()
-			.includes(searchTerm.toLowerCase());
+	const filteredCustomers =
+		data?.customers.filter((c) => {
+			const matchesSearch = c.fullName.toLowerCase().includes(searchTerm);
 
-		if (activeTab === "chu") return matchesSearch && c.role === "chu";
-		if (activeTab === "khach") return matchesSearch && c.role === "khach";
-		return matchesSearch;
-	});
+			if (activeTab === "GUEST") return matchesSearch && c.type === "GUEST";
+			if (activeTab === "OWNER") return matchesSearch && c.type === "OWNER";
+			return matchesSearch;
+		}) || [];
 
 	return (
 		<div className="flex flex-col gap-6 p-4 md:p-6 pb-24">
@@ -81,8 +91,8 @@ function RouteComponent() {
 				>
 					<TabsList className="grid grid-cols-3 w-full sm:w-60">
 						<TabsTrigger value="all">Tất cả</TabsTrigger>
-						<TabsTrigger value="khach">Khách</TabsTrigger>
-						<TabsTrigger value="chu">Chủ</TabsTrigger>
+						<TabsTrigger value="GUEST">Khách</TabsTrigger>
+						<TabsTrigger value="OWNER">Chủ</TabsTrigger>
 					</TabsList>
 				</Tabs>
 			</div>

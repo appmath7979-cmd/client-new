@@ -26,6 +26,7 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import { cn } from "#/lib/utils";
+import type { ICustomerItem } from "#/types/api/customer.type";
 import { Button } from "../ui/button";
 
 export function TableCustomer({
@@ -33,13 +34,7 @@ export function TableCustomer({
 	handleCopy,
 	handleDelete,
 }: {
-	customers: {
-		id: string;
-		name: string;
-		role: string;
-		status: string;
-		createdAt: string;
-	}[];
+	customers: ICustomerItem[];
 	handleCopy: (val: string) => void;
 	handleDelete: (id: string) => void;
 }) {
@@ -67,29 +62,29 @@ export function TableCustomer({
 											<User2Icon className="h-5 w-5" />
 											<Badge
 												className={cn(
-													"absolute size-3 p-0 -top-0.5 right-0.5 rounded-full",
-													customer.status === "active"
+													"absolute size-3 p-0 -top-0.5 -right-0.5 rounded-full",
+													customer.orders && customer.orders.length > 0
 														? "bg-emerald-600"
 														: "bg-gray-400",
 												)}
 											></Badge>
 										</div>
 										<span className="truncate font-semibold">
-											{customer.name}
+											{customer.fullName}
 										</span>
 									</Link>
 								</TableCell>
 								<TableCell>
-									{customer.role === "chu" ? (
+									{customer.type === "GUEST" ? (
 										<Badge
 											variant="default"
 											className="gap-1 bg-amber-500 hover:bg-amber-600 text-white"
 										>
-											<ShieldCheckIcon className="size-3" /> Chủ
+											<ShieldCheckIcon className="size-3" /> Khách
 										</Badge>
 									) : (
 										<Badge variant="secondary" className="gap-1">
-											<UserCheckIcon className="size-3" /> Khách
+											<UserCheckIcon className="size-3" /> Chủ
 										</Badge>
 									)}
 								</TableCell>
@@ -109,7 +104,7 @@ export function TableCustomer({
 											<DropdownMenuLabel>Hành động</DropdownMenuLabel>
 											<DropdownMenuSeparator />
 											<DropdownMenuItem
-												onClick={() => handleCopy(customer.name)}
+												onClick={() => handleCopy(customer.fullName)}
 												className="gap-2 cursor-pointer"
 											>
 												<CopyIcon className="h-4 w-4" /> Sao chép
