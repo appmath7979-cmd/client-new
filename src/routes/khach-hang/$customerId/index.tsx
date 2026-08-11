@@ -9,6 +9,7 @@ import { useCustomerQueryAll } from "#/hooks/query/customer/use-customer-query";
 import { useOrderQueryByCustomerId } from "#/hooks/query/order/use-order-query";
 import { formatDate } from "#/lib/format-date";
 import { store } from "#/store/store";
+import { DetailList } from "#/components/customer/customer-detail/DetailList";
 
 export const Route = createFileRoute("/khach-hang/$customerId/")({
   component: RouteComponent,
@@ -62,9 +63,10 @@ function RouteComponent() {
           region={region}
         />
       </div>
-      <div>
-        
-      </div>
+
+      <DetailList
+        orders={data?.orders.filter((order) => order.region === region) || []}
+      />
     </div>
   );
 }

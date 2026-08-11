@@ -21,7 +21,7 @@ export function ResultItem({ type, content, prefix }: ResultItemProps) {
 	return (
 		<div
 			className={cn(
-				"w-full font-semibold py-0.5 px-2 uppercase",
+				"w-full font-semibold py-0.5 px-2 uppercase text-left",
 				type === "XAC" && "text-amber-600",
 				type === "CO" && "text-emerald-600",
 				type === "TRUNG" && "text-red-600",

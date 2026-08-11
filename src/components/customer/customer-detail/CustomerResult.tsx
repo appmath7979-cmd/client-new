@@ -170,7 +170,7 @@ export function CustomerResult({
                       content={groupedItem.tongXac.toLocaleString("vi-VN")}
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="border-x">
                     <ResultItem
                       type="CO"
                       prefix={prefixLabel}
@@ -199,7 +199,7 @@ export function CustomerResult({
           )}
         </TableBody>
         <TableFooter className="bg-transparent border-t border-border/80">
-          <TableRow className="[&_td]:text-center">
+          <TableRow className="[&_td]:text-center [&_td]:font-semibold [&_td]:text-base">
             <TableCell className="text-amber-600">
               {totalXacRegion.toLocaleString("vi-VN")}
             </TableCell>
