@@ -10,12 +10,14 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "#/components/ui/dropdown-menu";
+import type { ICustomerItem } from "#/types/api/customer.type";
 
 interface CustomerSelectorProps {
 	src?: string;
 	alt?: string;
 	type?: "GUEST" | "OWNER";
 	name?: string;
+	customers: ICustomerItem[];
 }
 
 export function CustomerSelectorCard({
@@ -23,6 +25,7 @@ export function CustomerSelectorCard({
 	alt = "Avatar",
 	type,
 	name,
+	customers,
 }: CustomerSelectorProps) {
 	const isGuest = type === "GUEST";
 
@@ -74,17 +77,26 @@ export function CustomerSelectorCard({
 							Danh sách khách hàng
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator className="my-1" />
-						<DropdownMenuItem asChild className="rounded-md">
-							<Link
-								to="/khach-hang/$customerId"
-								params={{ customerId: "1" }}
-								className="flex items-center gap-2 px-2 py-1.5 text-xs font-medium"
-							>
-								<UserCheck className="w-3.5 h-3.5 text-primary" />
-								<span>Khách 1</span>
-							</Link>
-						</DropdownMenuItem>
-						{/* Bạn có thể map thêm danh sách khách hàng khác ở đây */}
+						{customers.length > 0 ? (
+							customers.map((customer) => (
+								<DropdownMenuItem
+									key={customer.id}
+									asChild
+									className="rounded-md"
+								>
+									<Link
+										to="/khach-hang/$customerId"
+										params={{ customerId: customer.id }}
+										className="flex items-center gap-2 px-2 py-1.5 text-xs font-medium"
+									>
+										<UserCheck className="w-3.5 h-3.5 text-primary" />
+										<span>{customer.fullName}</span>
+									</Link>
+								</DropdownMenuItem>
+							))
+						) : (
+							<></>
+						)}
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>

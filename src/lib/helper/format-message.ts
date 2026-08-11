@@ -10,16 +10,15 @@ export function formatMessage(
 		return "";
 	}
 
-	if (/\s$/.test(rawText)) {
+	if (/\s$/.test(rawText))
 		return rawText;
-	}
 
 	const debounceTrim = rawText.trim().toLowerCase();
 
 	// 0. CHUẨN HÓA TOÀN BỘ CÁC BIẾN THỂ CỦA CHỮ "Đ"
 	const preProcessedText = debounceTrim
 		.replace(/[₫đ](?=[a-z0-9])/g, "d")
-		.replace(/(?:đd|dđ)/g, "dd")
+		.replace(/(?:đd|dđ|đđ|₫₫)/g, "dd")
 		.replace(/(^|\s)[₫đ](?=\s|$)/g, "$1dd");
 
 	// 1. CHUẨN HÓA CÁC CỤM CHỈ ĐÀI (dai, đài, đai, dài) THÀNH "d"
@@ -43,6 +42,8 @@ export function formatMessage(
 	provinceMap.set("soc trang", "st");
 	provinceMap.set("long an", "la");
 	provinceMap.set("cà mau", "cm");
+	provinceMap.set("tayninh", "tn");
+	provinceMap.set("tây ninh", "tn");
 
 	provinces.forEach((p) => {
 		const syntax = p.syntax.toLowerCase();
