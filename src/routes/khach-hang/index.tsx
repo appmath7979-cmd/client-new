@@ -5,13 +5,21 @@ import { SearchCustomer } from "#/components/customer/SearchCustomer";
 import { TableCustomer } from "#/components/customer/TableCustomer";
 import { TitleCustomer } from "#/components/customer/TitleCustomer";
 import { Tabs, TabsList, TabsTrigger } from "#/components/ui/tabs";
-import { useCustomerQueryAll } from "#/hooks/query/customer/use-customer-query";
 import { formatDate } from "#/lib/format-date";
 import { store } from "#/store/store";
+import { customerQueryAll } from "#/services/customer.service";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/khach-hang/")({
   staticData: { title: "Khách hàng" },
   component: RouteComponent,
+  loaderDeps: () => ({ date: store.date.getState().date }),
+  loader: ({ context, deps }) => {
+    const release = formatDate(deps.date);
+    return context.queryClient.ensureQueryData(
+      customerQueryAll({ order: true, release }),
+    );
+  },
 });
 
 function RouteComponent() {
@@ -20,10 +28,9 @@ function RouteComponent() {
 
   const [date] = useAppStore(store.date, (s) => s.date);
 
-  const { data } = useCustomerQueryAll({
-    order: true,
-    release: formatDate(date),
-  });
+  const { data } = useSuspenseQuery(
+    customerQueryAll({ order: true, release: formatDate(date) }),
+  );
 
   // Xử lý sao chép thông tin
   const handleCopy = (text: string) => {

@@ -6,4 +6,9 @@ function formatDate(date: Date) {
 	return `${day}/${month}/${year}`;
 }
 
-export { formatDate };
+function convertDate(value: string) {
+	const [day, month, year] = value.split("/").map(Number);
+	return new Date(year, month - 1, day).getDay();
+}
+
+export { formatDate, convertDate };
