@@ -12,14 +12,14 @@ const themeScript = `(function() {
 })();`;
 
 export function ThemeProvider({
-  children,
+	children,
 }: {
-  children: Readonly<React.ReactNode>;
+	children: Readonly<React.ReactNode>;
 }) {
-  return (
-    <>
-      <ScriptOnce children={themeScript} />
-      {children}
-    </>
-  );
+	return (
+		<>
+			<ScriptOnce children={themeScript} />
+			{children}
+		</>
+	);
 }

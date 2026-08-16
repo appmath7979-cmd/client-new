@@ -5,24 +5,24 @@ import { Pending } from "./pages/Pending";
 import { routeTree } from "./routeTree.gen";
 
 export function getRouter() {
-  const queryClient = new QueryClient();
+	const queryClient = new QueryClient();
 
-  const router = createTanStackRouter({
-    routeTree,
-    context: { queryClient },
-    scrollRestoration: true,
-    defaultPreload: "intent",
-    defaultPreloadStaleTime: 0,
-    defaultPendingComponent: Pending,
-  });
+	const router = createTanStackRouter({
+		routeTree,
+		context: { queryClient },
+		scrollRestoration: true,
+		defaultPreload: "intent",
+		defaultPreloadStaleTime: 0,
+		defaultPendingComponent: Pending,
+	});
 
-  setupRouterSsrQueryIntegration({ router, queryClient });
+	setupRouterSsrQueryIntegration({ router, queryClient });
 
-  return router;
+	return router;
 }
 
 declare module "@tanstack/react-router" {
-  interface Register {
-    router: ReturnType<typeof getRouter>;
-  }
+	interface Register {
+		router: ReturnType<typeof getRouter>;
+	}
 }

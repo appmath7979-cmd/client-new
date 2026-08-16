@@ -4,29 +4,29 @@ import { NavGroupMenu } from "./NavGroupMenu";
 import { NavItem } from "./NavItem";
 
 export function NavList() {
-  const matches = useMatches();
-  const isShowNavbar = !matches.some((s) => s.staticData?.isShowNavbar);
+	const matches = useMatches();
+	const isShowNavbar = !matches.some((s) => s.staticData?.isShowNavbar);
 
-  const homeItem = navList.find((i) => i.id === "home-nav");
-  const chatbotItem = navList.find((i) => i.id === "chatbot-nav");
-  const reportItem = navList.find((i) => i.id === "report-nav");
-  const profileItem = navList.find((i) => i.id === "profile-nav");
+	const homeItem = navList.find((i) => i.id === "home-nav");
+	const chatbotItem = navList.find((i) => i.id === "chatbot-nav");
+	const reportItem = navList.find((i) => i.id === "report-nav");
+	const profileItem = navList.find((i) => i.id === "profile-nav");
 
-  const groupItems = navList.filter(
-    (i) => i.id === "customer-nav" || i.id === "layoff-nav",
-  );
+	const groupItems = navList.filter(
+		(i) => i.id === "customer-nav" || i.id === "layoff-nav",
+	);
 
-  if (!isShowNavbar) return null;
+	if (!isShowNavbar) return null;
 
-  return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border px-4 h-16 flex items-center justify-around capitalize">
-      {homeItem && <NavItem item={homeItem} />}
-      {chatbotItem && <NavItem item={chatbotItem} />}
+	return (
+		<nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border px-4 h-16 flex items-center justify-around capitalize">
+			{homeItem && <NavItem item={homeItem} />}
+			{chatbotItem && <NavItem item={chatbotItem} />}
 
-      <NavGroupMenu items={groupItems} />
+			<NavGroupMenu items={groupItems} />
 
-      {reportItem && <NavItem item={reportItem} />}
-      {profileItem && <NavItem item={profileItem} />}
-    </nav>
-  );
+			{reportItem && <NavItem item={reportItem} />}
+			{profileItem && <NavItem item={profileItem} />}
+		</nav>
+	);
 }

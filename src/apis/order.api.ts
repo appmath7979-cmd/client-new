@@ -24,7 +24,7 @@ export const orderApi = {
 		return res;
 	},
 	create: async (data: CreateOrder) => {
-		const res: MessageApi = await baseApi.post("order", data)
-		return res
-	}
+		const res: MessageApi = await baseApi.post("order", data);
+		return res;
+	},
 };

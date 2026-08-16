@@ -6,225 +6,74 @@ interface IScheduleItem {
 }
 
 interface ISchedule {
-	MB: Array<{ label: string; syntax: string }>;
-	MT: Array<{ label: string; syntax: string }>;
-	MN: Array<{ label: string; syntax: string }>;
+	MB: IScheduleItem[];
+	MT: IScheduleItem[];
+	MN: IScheduleItem[];
 }
 
-const centrals = provinceList
-	.filter((item) => item.region === "MT")
-	.map((item) => ({ ...item, code: item.code.toLocaleLowerCase() }));
-const souths = provinceList
-	.filter((item) => item.region === "MN")
-	.map((item) => ({ ...item, code: item.code.toLocaleLowerCase() }));
+// Tách bạch rõ 3 danh sách theo đúng region từ mảng gốc
+const mbList = provinceList.filter((item) => item.region === "MB");
+const mtList = provinceList.filter((item) => item.region === "MT");
+const mnList = provinceList.filter((item) => item.region === "MN");
+
+// Hàm helper tìm kiếm biệt lập cho từng miền
+const getMB = (code: string) => {
+	const found = mbList.find((item) => item.code === code);
+	return { label: found?.label ?? "", syntax: found?.syntax ?? "" };
+};
+
+const getMT = (code: string) => {
+	const found = mtList.find((item) => item.code === code);
+	return { label: found?.label ?? "", syntax: found?.syntax ?? "" };
+};
+
+const getMN = (code: string) => {
+	const found = mnList.find((item) => item.code === code);
+	return { label: found?.label ?? "", syntax: found?.syntax ?? "" };
+};
 
 const schedule: ISchedule[] = [
+	// Chủ Nhật (Đứng đầu mảng)
 	{
-		MB: [{ label: "Miền Bắc", syntax: "mb" }],
-		MT: [
-			{
-				label: centrals.find((central) => central.code === "kt")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "kt")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "th")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "th")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "kh")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "kh")?.syntax ?? "",
-			},
-		],
-		MN: [
-			{
-				label: souths.find((central) => central.code === "kh")?.label ?? "",
-				syntax: souths.find((central) => central.code === "kh")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "kg")?.label ?? "",
-				syntax: souths.find((central) => central.code === "kg")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "dl")?.label ?? "",
-				syntax: souths.find((central) => central.code === "dl")?.syntax ?? "",
-			},
-		],
+		MB: [getMB("MB")],
+		MT: [getMT("KH"), getMT("KT")],
+		MN: [getMN("TG"), getMN("KG"), getMN("DL")],
 	},
+	// Thứ 2
 	{
-		MB: [{ label: "Miền Bắc", syntax: "mb" }],
-		MT: [
-			{
-				label: centrals.find((central) => central.code === "py")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "py")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "th")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "th")?.syntax ?? "",
-			},
-		],
-		MN: [
-			{
-				label: souths.find((central) => central.code === "hcm")?.label ?? "",
-				syntax: souths.find((central) => central.code === "hcm")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "dt")?.label ?? "",
-				syntax: souths.find((central) => central.code === "dt")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "cm")?.label ?? "",
-				syntax: souths.find((central) => central.code === "cm")?.syntax ?? "",
-			},
-		],
+		MB: [getMB("MB")],
+		MT: [getMT("TH"), getMT("PY")],
+		MN: [getMN("HCM"), getMN("DT"), getMN("CM")],
 	},
+	// Thứ 3
 	{
-		MB: [{ label: "Miền Bắc", syntax: "mb" }],
-		MT: [
-			{
-				label: centrals.find((central) => central.code === "dl")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "dl")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "qna")?.label ?? "",
-				syntax:
-					centrals.find((central) => central.code === "qna")?.syntax ?? "",
-			},
-		],
-		MN: [
-			{
-				label: souths.find((central) => central.code === "bt")?.label ?? "",
-				syntax: souths.find((central) => central.code === "bt")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "vt")?.label ?? "",
-				syntax: souths.find((central) => central.code === "vt")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "bli")?.label ?? "",
-				syntax: souths.find((central) => central.code === "bli")?.syntax ?? "",
-			},
-		],
+		MB: [getMB("MB")],
+		MT: [getMT("QNA"), getMT("DL")],
+		MN: [getMN("BT"), getMN("VT"), getMN("BLI")],
 	},
+	// Thứ 4
 	{
-		MB: [{ label: "Miền Bắc", syntax: "mb" }],
-		MT: [
-			{
-				label: centrals.find((central) => central.code === "dn")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "dn")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "kh")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "kh")?.syntax ?? "",
-			},
-		],
-		MN: [
-			{
-				label: souths.find((central) => central.code === "dn")?.label ?? "",
-				syntax: souths.find((central) => central.code === "dn")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "ct")?.label ?? "",
-				syntax: souths.find((central) => central.code === "ct")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "st")?.label ?? "",
-				syntax: souths.find((central) => central.code === "st")?.syntax ?? "",
-			},
-		],
+		MB: [getMB("MB")],
+		MT: [getMT("DN"), getMT("KH")],
+		MN: [getMN("DN"), getMN("CT"), getMN("ST")],
 	},
+	// Thứ 5
 	{
-		MB: [{ label: "Miền Bắc", syntax: "mb" }],
-		MT: [
-			{
-				label: centrals.find((central) => central.code === "bd")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "bd")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "qt")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "qt")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "qb")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "qb")?.syntax ?? "",
-			},
-		],
-		MN: [
-			{
-				label: souths.find((central) => central.code === "tn")?.label ?? "",
-				syntax: souths.find((central) => central.code === "tn")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "ag")?.label ?? "",
-				syntax: souths.find((central) => central.code === "ag")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "bth")?.label ?? "",
-				syntax: souths.find((central) => central.code === "bth")?.syntax ?? "",
-			},
-		],
+		MB: [getMB("MB")],
+		MT: [getMT("BD"), getMT("QB"), getMT("QT")],
+		MN: [getMN("TN"), getMN("AG"), getMN("BTH")],
 	},
+	// Thứ 6
 	{
-		MB: [{ label: "Miền Bắc", syntax: "mb" }],
-		MT: [
-			{
-				label: centrals.find((central) => central.code === "gl")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "gl")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "nt")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "nt")?.syntax ?? "",
-			},
-		],
-		MN: [
-			{
-				label: souths.find((central) => central.code === "vl")?.label ?? "",
-				syntax: souths.find((central) => central.code === "vl")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "bd")?.label ?? "",
-				syntax: souths.find((central) => central.code === "bd")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "tv")?.label ?? "",
-				syntax: souths.find((central) => central.code === "tv")?.syntax ?? "",
-			},
-		],
+		MB: [getMB("MB")],
+		MT: [getMT("GL"), getMT("NT")],
+		MN: [getMN("VL"), getMN("BD"), getMN("TV")],
 	},
+	// Thứ 7
 	{
-		MB: [{ label: "Miền Bắc", syntax: "mb" }],
-		MT: [
-			{
-				label: centrals.find((central) => central.code === "dn")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "dn")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "qn")?.label ?? "",
-				syntax: centrals.find((central) => central.code === "qn")?.syntax ?? "",
-			},
-			{
-				label: centrals.find((central) => central.code === "dno")?.label ?? "",
-				syntax:
-					centrals.find((central) => central.code === "dno")?.syntax ?? "",
-			},
-		],
-		MN: [
-			{
-				label: souths.find((central) => central.code === "hcm")?.label ?? "",
-				syntax: souths.find((central) => central.code === "hcm")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "la")?.label ?? "",
-				syntax: souths.find((central) => central.code === "la")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "bp")?.label ?? "",
-				syntax: souths.find((central) => central.code === "bp")?.syntax ?? "",
-			},
-			{
-				label: souths.find((central) => central.code === "hg")?.label ?? "",
-				syntax: souths.find((central) => central.code === "hg")?.syntax ?? "",
-			},
-		],
+		MB: [getMB("MB")],
+		MT: [getMT("DN"), getMT("QN"), getMT("DNO")],
+		MN: [getMN("HCM"), getMN("LA"), getMN("HG"), getMN("BP")],
 	},
 ];
 

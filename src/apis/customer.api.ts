@@ -1,4 +1,8 @@
-import type { ICustomerApi, IQueryAll } from "#/types/api/customer.type";
+import type {
+	ICustomerApi,
+	ICustomerItem,
+	IQueryAll,
+} from "#/types/api/customer.type";
 import { baseApi } from "./base.api";
 
 export const customerApi = {
@@ -9,7 +13,7 @@ export const customerApi = {
 		return res;
 	},
 	getById: async (id: string) => {
-		const res: ICustomerApi = await baseApi.get(`customer/${id}`);
+		const res: ICustomerItem = await baseApi.get(`customer/${id}`);
 		return res;
 	},
 };

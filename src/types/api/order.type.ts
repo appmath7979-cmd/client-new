@@ -40,9 +40,9 @@ interface IOrderItem extends TimeApi {
 
 interface ICustomerWithOrder
 	extends Pick<Customer, "daxt">,
-	Pick<Customer, "type">,
-	Pick<Customer, "fullName">,
-	Pick<Customer, "settings"> { }
+		Pick<Customer, "type">,
+		Pick<Customer, "fullName">,
+		Pick<Customer, "settings"> {}
 
 interface IOrderApi extends MessageApi {
 	orders: IOrderItem[];
@@ -51,9 +51,9 @@ interface IOrderApi extends MessageApi {
 
 interface IOrderDetailApi extends MessageApi {
 	order: IOrderItem &
-	TimeApi & {
-		customer: { fullName: string | null; type: "GUEST" | "OWNER" };
-	} & { details: Array<IOrderDetailItem & TimeApi> };
+		TimeApi & {
+			customer: { fullName: string | null; type: "GUEST" | "OWNER" };
+		} & { details: Array<IOrderDetailItem & TimeApi> };
 }
 
 interface CreateOrderDetails {
@@ -83,5 +83,5 @@ export type {
 	IOrderDetailApi,
 	IQueryById,
 	CreateOrderDetails,
-	CreateOrder
+	CreateOrder,
 };
