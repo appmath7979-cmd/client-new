@@ -1,4 +1,11 @@
-import type { IOrderApi, IOrderDetailApi, IQueryByCustomerId, IQueryById } from "#/types/api/order.type";
+import type { MessageApi } from "#/types/api/base.type";
+import type {
+	CreateOrder,
+	IOrderApi,
+	IOrderDetailApi,
+	IQueryByCustomerId,
+	IQueryById,
+} from "#/types/api/order.type";
 import { baseApi } from "./base.api";
 
 export const orderApi = {
@@ -9,8 +16,15 @@ export const orderApi = {
 		return res;
 	},
 	getById: async (data: IQueryById) => {
-		const { customerId, orderId } = data
-		const res: IOrderDetailApi = await baseApi.get(`order/customer/${customerId}/order/${orderId}`, { data })
+		const { customerId, orderId } = data;
+		const res: IOrderDetailApi = await baseApi.get(
+			`order/customer/${customerId}/order/${orderId}`,
+			{ data },
+		);
 		return res;
+	},
+	create: async (data: CreateOrder) => {
+		const res: MessageApi = await baseApi.post("order", data)
+		return res
 	}
 };

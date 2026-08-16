@@ -1,4 +1,5 @@
 import { useAppStore } from "@lavaz/store";
+import { useRouter } from "@tanstack/react-router";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { formatDate } from "#/lib/format-date";
@@ -6,54 +7,53 @@ import { store } from "#/store/store";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { useRouter } from "@tanstack/react-router";
 
 export function DatePicker() {
-  const [isMounted, setIsMounted] = useState(false);
-  const [date, { setDate }] = useAppStore(store.date, (s) => s.date);
-  const router = useRouter();
+	const [isMounted, setIsMounted] = useState(false);
+	const [date, { setDate }] = useAppStore(store.date, (s) => s.date);
+	const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
-  if (!isMounted || !date) {
-    return (
-      <Button
-        variant="outline"
-        className="justify-start text-left font-normal text-muted-foreground"
-      >
-        <CalendarIcon />
-        <span className="max-md:hidden">Chọn ngày</span>
-      </Button>
-    );
-  }
+	if (!isMounted || !date) {
+		return (
+			<Button
+				variant="outline"
+				className="justify-start text-left font-normal text-muted-foreground"
+			>
+				<CalendarIcon />
+				<span className="max-md:hidden">Chọn ngày</span>
+			</Button>
+		);
+	}
 
-  const handleChangeDate = (newDate: Date) => {
-    setDate(newDate);
-    router.invalidate();
-  };
+	const handleChangeDate = (newDate: Date) => {
+		setDate(newDate);
+		router.invalidate();
+	};
 
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          data-empty={!date}
-          className="justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
-        >
-          <CalendarIcon />
-          <span className="max-md:hidden">{formatDate(date)}</span>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0 z-9999">
-        <Calendar
-          required
-          mode="single"
-          selected={date}
-          onSelect={handleChangeDate}
-        />
-      </PopoverContent>
-    </Popover>
-  );
+	return (
+		<Popover>
+			<PopoverTrigger asChild>
+				<Button
+					variant="outline"
+					data-empty={!date}
+					className="justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
+				>
+					<CalendarIcon />
+					<span className="max-md:hidden">{formatDate(date)}</span>
+				</Button>
+			</PopoverTrigger>
+			<PopoverContent className="w-auto p-0 z-9999">
+				<Calendar
+					required
+					mode="single"
+					selected={date}
+					onSelect={handleChangeDate}
+				/>
+			</PopoverContent>
+		</Popover>
+	);
 }

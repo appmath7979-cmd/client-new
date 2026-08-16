@@ -10,8 +10,7 @@ export function formatMessage(
 		return "";
 	}
 
-	if (/\s$/.test(rawText))
-		return rawText;
+	if (/\s$/.test(rawText)) return rawText;
 
 	const debounceTrim = rawText.trim().toLowerCase();
 

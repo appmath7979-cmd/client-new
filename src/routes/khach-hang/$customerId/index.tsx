@@ -1,17 +1,16 @@
 import { useAppStore } from "@lavaz/store";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { PlusIcon } from "lucide-react";
 import { RegionDropdown } from "#/components/base/dropdown/RegionDropdown";
 import { CustomerResult } from "#/components/customer/customer-detail/CustomerResult";
 import { CustomerSelectorCard } from "#/components/customer/customer-detail/CustomerSelectorCard";
-import { Button } from "#/components/ui/button";
-
-import { formatDate } from "#/lib/format-date";
-import { store } from "#/store/store";
 import { DetailList } from "#/components/customer/customer-detail/DetailList";
-import { orderQueryByCustomerId } from "#/services/order.service";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { Button } from "#/components/ui/button";
+import { formatDate } from "#/lib/format-date";
 import { customerQueryAll } from "#/services/customer.service";
+import { orderQueryByCustomerId } from "#/services/order.service";
+import { store } from "#/store/store";
 
 export const Route = createFileRoute("/khach-hang/$customerId/")({
   staticData: { isShowBack: true },
@@ -23,10 +22,10 @@ export const Route = createFileRoute("/khach-hang/$customerId/")({
     const { customerId } = params;
     const release = formatDate(deps.date);
     return Promise.all([
-      context.queryClient.ensureQueryData(
+      context.queryClient.prefetchQuery(
         orderQueryByCustomerId({ customerId, release }),
       ),
-      context.queryClient.ensureQueryData(customerQueryAll({})),
+      context.queryClient.prefetchQuery(customerQueryAll({})),
     ]);
   },
 });
@@ -58,11 +57,16 @@ function RouteComponent() {
           customers={filterCustomers}
         />
         <div className="flex justify-end items-center gap-4">
+          <Button variant={"outline"} asChild>
+            <Link to="/khach-hang/$customerId/du-chuan" params={{ customerId }}>
+              Xem dư chuẩn
+            </Link>
+          </Button>
           <RegionDropdown />
           <Button asChild>
             <Link
               to="/khach-hang/$customerId/tin-nhan"
-              params={{ customerId: "1" }}
+              params={{ customerId }}
             >
               <PlusIcon />
               <span>Thêm tin nhắn</span>

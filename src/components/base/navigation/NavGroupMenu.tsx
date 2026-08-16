@@ -6,7 +6,7 @@ import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from "@/components/ui/popover"; // Đường dẫn tuỳ thuộc vào alias cấu hình shadcn của bạn
+} from "@/components/ui/popover"; 
 
 export function NavGroupMenu({ items }: { items: INavItem[] }) {
 	const [open, setOpen] = useState(false);

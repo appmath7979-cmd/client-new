@@ -1,5 +1,5 @@
 import { useAppStore } from "@lavaz/store";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import { CircleCheckBigIcon, SendIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { RegionDropdown } from "#/components/base/dropdown/RegionDropdown";
@@ -19,13 +19,21 @@ import { splitMessageToChunks } from "#/lib/helper/split-message-to-chunk";
 import { cn } from "#/lib/utils";
 import { store } from "#/store/store";
 import type { IValidateStatus } from "#/types/message.type";
+import type { CreateOrder } from "#/types/api/order.type";
+import { formatDate } from "#/lib/format-date";
+import { formatChunkSubmit } from "#/lib/helper/format-chunk-submit";
+import { useCreateMessage } from "#/hooks/query/use-message-mutation";
 
 export const Route = createFileRoute("/khach-hang/$customerId/tin-nhan")({
-  staticData: { title: "Tin nhắn", isShowBack: true },
+  staticData: { title: "Xử lý Tin nhắn", isShowBack: true },
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { customerId } = useParams({
+    from: "/khach-hang/$customerId/tin-nhan",
+  });
+  const { mutate } = useCreateMessage(customerId);
   const [region] = useAppStore(store.region, (s) => s.region);
   const [date] = useAppStore(store.date, (s) => s.date);
   const [value, setValue] = useState<string>("");
@@ -68,6 +76,21 @@ function RouteComponent() {
     setChunks(chunks);
   }, [parsedText, region, rewardSchedule]);
 
+  const handleSubmit = () => {
+    const details = formatChunkSubmit(checkedMessage, region);
+    const release = formatDate(date);
+
+    const data: CreateOrder = {
+      region,
+      message: value,
+      isLayoff: false,
+      release,
+      details: details,
+      customerId,
+    };
+    mutate(data);
+  };
+
   return (
     <div className="py-4 space-y-6">
       <div className="flex justify-end items-center gap-4">
@@ -82,6 +105,7 @@ function RouteComponent() {
         </Button>
         <Button
           disabled={!isChecked}
+          onClick={handleSubmit}
           className={cn(!isChecked && "bg-secondary text-secondary-foreground")}
         >
           <SendIcon />

@@ -50,41 +50,29 @@ interface IOrderApi extends MessageApi {
 }
 
 interface IOrderDetailApi extends MessageApi {
-	order: IOrderItem & TimeApi & { customer: { fullName: string | null, type: "GUEST" | "OWNER" } } & { details: Array<IOrderDetailItem & TimeApi> }
+	order: IOrderItem &
+	TimeApi & {
+		customer: { fullName: string | null; type: "GUEST" | "OWNER" };
+	} & { details: Array<IOrderDetailItem & TimeApi> };
 }
 
+interface CreateOrderDetails {
+	syntax: string;
+	stationCode: string;
+	number: string;
+	type: string;
+	xac: number;
+}
 
-// {
-// 	details: {
-// 		number: string;
-// 		customerId: string | null;
-// 		orderId: string;
-// 		id: string;
-// 		createdAt: Date;
-// 		updatedAt: Date;
-// 		type: string;
-// 		date: string;
-// 		syntax: string;
-// 		stationCode: string;
-// 		price: number;
-// 		xac: number;
-// 		co: number;
-// 		trung: number;
-// 	} [];
-// 	customer: {
-// 		fullName: string;
-// 	} | null;
-// } & {
-// 	customerId: string | null;
-// 	id: string;
-// 	release: string;
-// 	isLayoff: boolean;
-// 	region: $Enums.Region;
-// 	message: string;
-// 	isSend: boolean | null;
-// 	createdAt: Date;
-// 	updatedAt: Date;
-// }
+interface CreateOrder {
+	release: string;
+	message: string;
+
+	isLayoff: boolean;
+	region: Region;
+	details: CreateOrderDetails[];
+	customerId?: string;
+}
 
 export type {
 	IOrderItem,
@@ -93,5 +81,7 @@ export type {
 	IQueryByCustomerId,
 	ICustomerWithOrder,
 	IOrderDetailApi,
-	IQueryById
+	IQueryById,
+	CreateOrderDetails,
+	CreateOrder
 };

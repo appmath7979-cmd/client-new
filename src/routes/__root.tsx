@@ -1,20 +1,23 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { FormDevtoolsPanel } from "@tanstack/react-form-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
-import { HeadContent, Scripts } from "@tanstack/react-router";
+import {
+  ClientOnly,
+  createRootRouteWithContext,
+  HeadContent,
+  Scripts,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Header } from "#/components/base/Header";
 import { NavList } from "#/components/base/navigation/NavList";
-import appCss from "../styles.css?url";
 import { AppPropvider } from "#/provider/AppPropvider";
-import { getThemeServerFn } from "#/lib/server/theme";
-import { ThemeMode } from "#/components/base/ThemeMode";
-import { createRootRouteWithContext } from "@tanstack/react-router";
-import type { QueryClient } from "@tanstack/react-query";
+import appCss from "../styles.css?url";
+import { ThemeSync } from "#/components/base/ThemeSync";
+import { Toaster } from "sonner";
 
 interface RootRouteWithContext {
-  theme: "light" | "dark";
-  queryClient: QueryClient; // 👈 add this
+  queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<RootRouteWithContext>()({
@@ -38,22 +41,24 @@ export const Route = createRootRouteWithContext<RootRouteWithContext>()({
       },
     ],
   }),
-  beforeLoad: async () => ({ theme: await getThemeServerFn() }),
   shellComponent: RootDocument,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
         <AppPropvider>
+          <ClientOnly fallback={null}>
+            <ThemeSync />
+          </ClientOnly>
           <Header />
-          <ThemeMode />
           <main className="px-4">{children}</main>
           <NavList />
+          <Toaster richColors closeButton />
         </AppPropvider>
 
         <TanStackDevtools
